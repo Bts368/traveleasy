@@ -1,0 +1,703 @@
+<html><head><base href="https://example.com/ar/" /><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>موقع السلايدات التفاعلي - السفر والتسجيل والوجهات</title>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
+    body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: 'Cairo', sans-serif;
+        direction: rtl;
+    }
+    .slider-container {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        position: relative;
+    }
+    .slide {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-size: 1em;
+        color: white;
+        text-align: center;
+    }
+    .slide.active {
+        opacity: 1;
+    }
+    .nav-button {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: rgba(255, 255, 255, 0.5);
+        border: none;
+        color: #333;
+        padding: 10px 15px;
+        cursor: pointer;
+        font-size: 1.2em;
+        z-index: 10;
+    }
+    #prevBtn {
+        right: 20px;
+    }
+    #nextBtn {
+        left: 20px;
+    }
+    .slide-content {
+        position: relative;
+        z-index: 2;
+        background-color: rgba(0, 0, 0, 0.6);
+        padding: 20px;
+        border-radius: 10px;
+        max-width: 80%;
+    }
+    .full-width-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 1;
+    }
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+    }
+    input, select {
+        padding: 10px;
+        border-radius: 5px;
+        border: none;
+        width: 200px;
+    }
+    button {
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #45a049;
+    }
+</style>
+</head>
+<body>
+<div class="slider-container">
+    <div class="slide active">
+        <img src="https://source.unsplash.com/1600x900/?tourism,travel" alt="صورة جذابة للسياحة، تظهر معالم سياحية متنوعة ومسافرين يستمتعون برحلاتهم" class="full-width-image" width="1600" height="900">
+        <div class="slide-content">
+            <h2>مرحبًا بك في عالم السفر</h2>
+            <p>اكتشف جمال العالم وعش مغامرات لا تُنسى</p>
+        </div>
+    </div>
+    <div class="slide">
+        <img src="https://source.unsplash.com/1600x900/?seoul,southkorea" alt="صورة لمدينة سيول في كوريا الجنوبية، تظهر المباني الحديثة والمعالم التاريخية" class="full-width-image" width="1600" height="900">
+        <div class="slide-content">
+            <h2>سجل الآن لبدء مغامرتك</h2>
+            <form id="loginForm">
+                <input type="text" id="username" placeholder="اسم المستخدم" required>
+                <input type="password" id="password" placeholder="كلمة المرور" required>
+                <button type="submit">تسجيل الدخول</button>
+            </form>
+            <p id="loginMessage"></p>
+        </div>
+    </div>
+    <div class="slide">
+        <img src="https://source.unsplash.com/1600x900/?earth,map" alt="صورة لخريطة العالم، منظر شامل للكرة الأرضية" class="full-width-image" width="1600" height="900">
+        <div class="slide-content">
+            <h2>خطط رحلتك</h2>
+            <form id="travelForm">
+                <select id="homeCountry" required>
+                    <option value="">اختر دولتك الأم</option>
+                </select>
+                <select id="destination" required>
+                    <option value="">اختر وجهتك</option>
+                </select>
+                <button type="submit">تأكيد الاختيار</button>
+            </form>
+            <p id="travelMessage"></p>
+        </div>
+    </div>
+    <div class="slide">
+        <img src="https://source.unsplash.com/1600x900/?snowy,mountain,night" alt="صورة لجبل يغطيه الثلج ليلاً، منظر هادئ وساحر في ضوء القمر" class="full-width-image" width="1600" height="900">
+        <div class="slide-content">
+            <h2>ماذا تريد أن تعرف عن وجهتك؟</h2>
+            <form id="destinationInfoForm">
+                <select id="infoCategory" required>
+                    <option value="">اختر ما تريد معرفته</option>
+                    <option value="language">اللغة</option>
+                    <option value="religion">الديانة</option>
+                    <option value="currency">العملة</option>
+                    <option value="location">الموقع الجغرافي</option>
+                    <option value="bestSeason">أفضل فصل للزيارة</option>
+                    <option value="popularActivities">الأنشطة السياحية الرائجة</option>
+                    <option value="majorCities">أهم المدن الكبرى</option>
+                </select>
+                <button type="submit">عرض المعلومات</button>
+            </form>
+            <p id="destinationInfo"></p>
+        </div>
+    </div>
+    
+    <button id="prevBtn" class="nav-button">السابق</button>
+    <button id="nextBtn" class="nav-button">التالي</button>
+</div>
+
+<script>
+    const slides = document.querySelectorAll('.slide');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    let currentSlide = 0;
+
+    function showSlide(n) {
+        slides[currentSlide].classList.remove('active');
+        currentSlide = (n + slides.length) % slides.length;
+        slides[currentSlide].classList.add('active');
+    }
+
+    function changeToSlide(n) {
+        showSlide(n);
+    }
+
+    function nextSlide() {
+        showSlide(currentSlide + 1);
+    }
+
+    function prevSlide() {
+        showSlide(currentSlide - 1);
+    }
+
+    nextBtn.addEventListener('click', nextSlide);
+    prevBtn.addEventListener('click', prevSlide);
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') {
+            nextSlide();
+        } else if (e.key === 'ArrowLeft') {
+            prevSlide();
+        }
+    });
+
+    const loginForm = document.getElementById('loginForm');
+    const loginMessage = document.getElementById('loginMessage');
+
+    loginForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        localStorage.setItem('username', username);
+        localStorage.setItem('password', password);
+
+        loginMessage.textContent = 'تم تسجيل الدخول بنجاح!';
+        loginMessage.style.color = 'green';
+
+        loginForm.reset();
+
+        setTimeout(() => changeToSlide(2), 1000);
+    });
+
+    window.addEventListener('load', function() {
+        const savedUsername = localStorage.getItem('username');
+        if (savedUsername) {
+            loginMessage.textContent = '';
+            loginMessage.style.color = 'green';
+        }
+    });
+
+    const travelForm = document.getElementById('travelForm');
+    const travelMessage = document.getElementById('travelMessage');
+
+    travelForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const homeCountry = document.getElementById('homeCountry').value;
+        const destination = document.getElementById('destination').value;
+
+        localStorage.setItem('homeCountry', homeCountry);
+        localStorage.setItem('destination', destination);
+
+        travelMessage.textContent = `رائع! أنت من ${homeCountry} وتخطط للسفر إلى ${destination}. استمتع برحلتك!`;
+        travelMessage.style.color = 'green';
+
+        travelForm.reset();
+
+        setTimeout(() => changeToSlide(3), 1000);
+    });
+
+    const countries = [
+        "مصر", "المغرب", "رواندا", "الأرجنتين", "البرازيل", "الإكوادور", "بوليفيا", "كندا", 
+        "الولايات المتحدة الأمريكية", "اليابان", "كوريا الجنوبية", "سنغافورة", "تايلاند", 
+        "تركيا", "سويسرا", "المملكة المتحدة", "فرنسا", "إيطاليا", "اليونان"
+    ];
+
+    function populateCountryLists() {
+        const homeCountrySelect = document.getElementById('homeCountry');
+        const destinationSelect = document.getElementById('destination');
+
+        countries.forEach(country => {
+            const homeOption = document.createElement('option');
+            homeOption.value = country;
+            homeOption.textContent = country;
+            homeCountrySelect.appendChild(homeOption);
+
+            const destOption = document.createElement('option');
+            destOption.value = country;
+            destOption.textContent = country;
+            destinationSelect.appendChild(destOption);
+        });
+    }
+
+    window.addEventListener('load', populateCountryLists);
+
+    const destinationInfoForm = document.getElementById('destinationInfoForm');
+    const destinationInfo = document.getElementById('destinationInfo');
+
+    destinationInfoForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const infoCategory = document.getElementById('infoCategory').value;
+        const destination = localStorage.getItem('destination');
+
+        if (!destination) {
+            destinationInfo.textContent = 'الرجاء اختيار وجهة في السلايد السابق أولاً.';
+            destinationInfo.style.color = 'red';
+            return;
+        }
+
+        let info = '';
+        switch (infoCategory) {
+            case 'language':
+                switch (destination) {
+                    case 'سويسرا':
+                        info = 'اللغات الرسمية في سويسرا هي الألمانية والفرنسية والإيطالية والرومانشية.';
+                        break;
+                    case 'اليونان':
+                        info = 'اللغة الرسمية في اليونان هي اليونانية.';
+                        break;
+                    case 'المملكة المتحدة':
+                        info = 'اللغة الرسمية في المملكة المتحدة هي الإنجليزية.';
+                        break;
+                    case 'إيطاليا':
+                        info = 'اللغة الرسمية في إيطاليا هي الإيطالية.';
+                        break;
+                    case 'الأرجنتين':
+                        info = 'اللغة السائدة في الأرجنتين هي الإسبانية.';
+                        break;
+                    case 'كندا':
+                        info = 'اللغات الرسمية في كندا هي الفرنسية والإنجليزية.';
+                        break;
+                    case 'تايلاند':
+                        info = 'اللغة الرسمية في تايلاند هي التايلاندية، والإنجليزية أيضاً شائعة الاستخدام.';
+                        break;
+                    case 'تركيا':
+                        info = 'اللغة الرسمية في تركيا هي التركية.';
+                        break;
+                    case 'كوريا الجنوبية':
+                        info = 'اللغة الرسمية في كوريا الجنوبية هي الكورية (الهانغول).';
+                        break;
+                    case 'سنغافورة':
+                        info = 'اللغة الرسمية في سنغافورة هي الإنجليزية.';
+                        break;
+                    case 'اليابان':
+                        info = 'اللغة الرسمية في اليابان هي اليابانية.';
+                        break;
+                    case 'الولايات المتحدة الأمريكية':
+                        info = 'الغة الرسمية في الولايات المتحدة الأمريكية هي الإنجليزية.';
+                        break;
+                    case 'بوليفيا':
+                        info = 'اللغة الرسمية في بوليفيا هي الإسبانية.';
+                        break;
+                    case 'مصر':
+                    case 'المغرب':
+                        info = `اللغة الرسمية في ${destination} هي العربية.`;
+                        break;
+                    case 'رواندا':
+                        info = 'اللغة الرسمية في رواندا هي الكينyarوندا.';
+                        break;
+                    case 'الإكوادور':
+                        info = 'اللغة الرسمية في الإكوادور هي الإسبانية.';
+                        break;
+                    case 'البرازيل':
+                        info = 'اللغة الرسمية في البرازيل هي البرتغالية.';
+                        break;
+                    default:
+                        info = `المعلومات عن اللغة في ${destination} غير متوفرة حالياً. يرجى البحث للحصول على معلومات دقيقة.`;
+                }
+                break;
+            case 'religion':
+                switch (destination) {
+                    case 'سويسرا':
+                        info = 'الديانة السائدة في سويسرا هي المسيحية.';
+                        break;
+                    case 'إيطاليا':
+                    case 'فرنسا':
+                    case 'الأرجنتين':
+                    case 'البرازيل':
+                    case 'الإكوادور':
+                    case 'بوليفيا':
+                        info = `الديانة السائدة في ${destination} هي المسيحية الكاثوليكية.`;
+                        break;
+                    case 'سنغافورة':
+                        info = 'الديانات الرئيسية في سنغافورة هي البوذية والمسيحية.';
+                        break;
+                    case 'تايلاند':
+                        info = 'الديانة السائدة في تايلاند هي البوذية السيرافادا.';
+                        break;
+                    case 'اليابان':
+                        info = 'الديانات الرئيسية في اليابان هي الكونفوشيوسية والبوذية.';
+                        break;
+                    case 'كوريا الجنوبية':
+                        info = 'الديانات الرئيسية في كوريا الجنوبية هي البوذية والمسيحية.';
+                        break;
+                    case 'المملكة المتحدة':
+                        info = 'الديانة السائدة في المملكة المتحدة هي المسيحية البروتستانتية.';
+                        break;
+                    case 'تركيا':
+                        info = 'الديانة السائدة في تركيا هي الإسلام السني.';
+                        break;
+                    case 'كندا':
+                    case 'الولايات المتحدة الأمريكية':
+                        info = `الديانة السائدة في ${destination} هي المسيحية.`;
+                        break;
+                    case 'اليونان':
+                        info = 'الديانة السائدة في اليونان هي المسيحية الأرثوذكسية.';
+                        break;
+                    case 'مصر':
+                        info = 'الديانات الرئيسية في مصر هي الإسلام والمسيحية.';
+                        break;
+                    case 'المغرب':
+                        info = 'الديانة السائدة في المغرب هي الإسلام السني.';
+                        break;
+                    case 'رواندا':
+                        info = 'الديانة السائدة في رواندا هي المسيحية.';
+                        break;
+                    default:
+                        info = `المعلومات عن الديانة في ${destination} غير متوفرة حالياً. يرجى البحث للحصول على معلومات دقيقة.`;
+                }
+                break;
+            case 'currency':
+                switch (destination) {
+                    case 'سويسرا':
+                        info = `العملة المستخدمة في سويسرا هي الفرنك السويسري.`;
+                        break;
+                    case 'اليونان':
+                    case 'فرنسا':
+                    case 'إيطاليا':
+                        info = `العملة المستخدمة في ${destination} هي اليورو.`;
+                        break;
+                    case 'المملكة المتحدة':
+                        info = `العملة المستخدمة في المملكة المتحدة هي الجنيه الاسترليني.`;
+                        break;
+                    case 'الأرجنتين':
+                        info = `العملة المستخدمة في الأرجنتين هي البيزو الأرجنتيني.`;
+                        break;
+                    case 'كندا':
+                        info = `العملة المستخدمة في كندا هي الدولار الكندي.`;
+                        break;
+                    case 'تايلاند':
+                        info = `العملة المستخدمة في تايلاند هي البات التايلاندي.`;
+                        break;
+                    case 'تركيا':
+                        info = `العملة المستخدمة في تركيا هي الليرة التركية.`;
+                        break;
+                    case 'سنغافورة':
+                        info = `العملة المستخدمة في سنغافورة هي الدولار السنغافوري.`;
+                        break;
+                    case 'اليابان':
+                        info = `العملة المستخدمة في اليابان هي الين الياباني.`;
+                        break;
+                    case 'كوريا الجنوبية':
+                        info = `العملة المستخدمة في كوريا الجنوبية هي الوون الكوري.`;
+                        break;
+                    case 'الولايات المتحدة الأمريكية':
+                    case 'الإكوادور':
+                        info = `العملة المستخدمة في ${destination} هي الدولار الأمريكي.`;
+                        break;
+                    case 'مصر':
+                        info = `العملة المستخدمة في مصر هي الجنيه المصري.`;
+                        break;
+                    case 'المغرب':
+                        info = `العملة المستخدمة في المغرب هي الدرهم المغربي.`;
+                        break;
+                    case 'رواندا':
+                        info = `العملة المستخدمة في رواندا هي الفرنك الرواندي.`;
+                        break;
+                    case 'بوليفيا':
+                        info = `العملة المستخدمة في بوليفيا هي البوليفيانو.`;
+                        break;
+                    case 'البرازيل':
+                        info = `العملة المستخدمة في البرازيل هي الريال البرازيلي.`;
+                        break;
+                    default:
+                        info = `المعلومات عن العملة المستخدمة في ${destination} غير متوفرة حالياً. يرجى البحث للحصول على معلومات دقيقة.`;
+                }
+                break;
+            case 'location':
+                switch (destination) {
+                    case 'مصر':
+                        info = 'تقع مصر في قلب العالم القديم، حيث تشكل جسراً يربط بين قارتي أفريقيا وآسيا عبر شبه جزيرة سيناء.';
+                        break;
+                    case 'المغرب':
+                        info = 'يقع المغرب في شمال غرب قارة إفريقيا، ويمتد على مساحة شاسعة تطل على المحيط الأطلسي من الشمال الغربي، والبحر الأبيض المتوسط من الشمال.';
+                        break;
+                    case 'رواندا':
+                        info = 'رواندا هي دولة تقع في وسط قارة أفريقيا، وتحديداً في منطقة البحيرات الكبرى. تحدها أوغندا من الشمال، وتنزانيا من الشرق، وبوروندي من الجنوب، وجمهورية الكونغو الديمقراطية من الغرب.';
+                        break;
+                    case 'الإكوادور':
+                        info = 'الإكوادور دولة تقع في شمال غرب أمريكا الجنوبية.';
+                        break;
+                    case 'بوليفيا':
+                        info = 'بوليفيا هي دولة تقع في قلب قارة أمريكا الجنوبية، محاطة بعدة دول هي: البرازيل من الشمال والشرق، وباراغواي والأرجنتين من الجنوب، وبيرو من الغرب.';
+                        break;
+                    case 'تشيلي':
+                        info = 'تقع تشيلي في الجزء الغربي من أمريكا الجنوبية.';
+                        break;
+                    case 'البرازيل':
+                        info = 'تقع البرازيل في شمال شرق قارة أمريكا الجنوبية.';
+                        break;
+                    case 'الأرجنتين':
+                        info = 'الأرجنتين دولة تقع في جنوب قارة أمريكا الجنوبية.';
+                        break;
+                    case 'فرنسا':
+                        info = 'فرنسا هي دولة تقع في قلب قارة أوروبا، وتعتبر واحدة من أكبر الدول في الاتحاد الأوروبي. تتميز فرنسا بموقع جغرافي استراتيجي، حيث تحدها العديد من الدول الأوروبية، وتطل على بحر المانش والمحيط الأطلسي والبحر الأبيض المتوسط.';
+                        break;
+                    case 'إيطاليا':
+                        info = 'تقع إيطاليا في جنوب أوروبا، وهي عبارة عن شبه جزيرة تمتد في البحر الأبيض المتوسط.';
+                        break;
+                    case 'المملكة المتحدة':
+                        info = 'إنجلترا هي أكبر دولة وأكثرها سكاناً في المملكة المتحدة، وتقع في جزيرة بريطانيا العظمى، وهي الجزيرة الأكبر في أرخبيل الجزر البريطانية.';
+                        break;
+                    case 'اليونان':
+                        info = 'اليونان هي دولة تقع في جنوب شرق أوروبا، وتحديدًا في شبه الجزيرة البلقانية.';
+                        break;
+                    case 'سويسرا':
+                        info = 'تقع سويسرا في قلب أوروبا، وتحيط بها خمس دول هي: ألمانيا من الشمال، إيطاليا من الجنوب، النمسا من الشرق، ليختنشتاين (إمارة صغيرة تقع بين سويسرا والنمسا)، وفرنسا من الغرب.';
+                        break;
+                    case 'تايلاند':
+                        info = 'تقع تايلاند في قلب جنوب شرق آسيا، وهي دولة تمتد من شبه جزيرة الملايو إلى هند الصين.';
+                        break;
+                    case 'اليابان':
+                        info = 'تقع اليابان في شرق قارة آسيا. يحد اليابان من الشرق المحيط الهادئ، ومن الغرب بحر اليابان.';
+                        break;
+                    case 'تركيا':
+                        info = 'تقع تركيا في موقع جغرافي استراتيجي للغاية، حيث تمتد على قارتي آسيا وأوروبا.';
+                        break;
+                    case 'كوريا الجنوبية':
+                        info = 'تقع كوريا الجنوبية في الجزء الجنوبي من شبه الجزيرة الكورية، وهي دولة شبه جزيرية تطل على بحر اليابان من الشرق، والبحر الأصفر من الغرب. تحدها كوريا الشمالية من الشمال، وتعتبر جزءًا هامًا من شرق آسيا.';
+                        break;
+                    case 'كندا':
+                        info = 'تقع كندا في شمال قارة أمريكا الشمالية، وتمتد من المحيط الأطلسي في الشرق إلى المحيط الهادئ في الغرب، وصولًا إلى المحيط المتجمد الشمالي في الشمال.';
+                        break;
+                    case 'الولايات المتحدة الأمريكية':
+                        info = 'تقع الولايات المتحدة في وسط قارة أمريكا الشمالية، وجارتها الشمالية هي كندا. تمتد الولايات المتحدة من المحيط الأطلسي في الشرق إلى المحيط الهادئ في الغرب، وتشمل أيضاً ألاسكا في أقصى شمال غرب القارة، وهاواي في المحيط الهادئ.';
+                        break;
+                    default:
+                        info = `المعلومات عن الموقع الجغرافي لـ ${destination} غير متوفرة حالياً. يرجى البحث للحصول على معلومات دقيقة.`;
+                }
+                break;
+            case 'bestSeason':
+                switch (destination) {
+                    case 'إيطاليا':
+                        info = 'أفضل الفصول لزيارة إيطاليا هي الربيع (مارس-مايو) والخريف (سبتمبر-نوفمبر).';
+                        break;
+                    case 'فرنسا':
+                        info = 'أفضل الفصول لزيارة فرنسا هي الربيع والخريف. الصيف (يونيو-أغسطس) مثالي للاستمتاع بالشواطئ.';
+                        break;
+                    case 'المملكة المتحدة':
+                        info = 'أفضل الفصول لزيارة المملكة المتحدة هي الصيف (يونيو-أغسطس) والخريف.';
+                        break;
+                    case 'اليونان':
+                        info = 'أفضل الفصول لزيارة اليونان هي الربيع والخريف.';
+                        break;
+                    case 'تركيا':
+                        info = 'أفضل الفصول لزيارة تركيا هي الربيع والخريف.';
+                        break;
+                    case 'سويسرا':
+                        info = 'أفضل الفصول لزيارة سويسرا هي الصيف والخريف.';
+                        break;
+                    case 'كوريا الجنوبية':
+                        info = 'أفضل الفصول لزيارة كوريا الجنوبية هي الربيع (أبريل-مايو) والخريف (سبتمبر-أكتوبر).';
+                        break;
+                    case 'اليابان':
+                        info = 'أفضل الفصول لزيارة اليابان هي الربيع (أبريل-مايو) والخريف.';
+                        break;
+                    case 'تايلاند':
+                        info = 'أفضل الفصول لزيارة تايلاند هي الشتاء (نوفمبر- فبراير).';
+                        break;
+                    case 'سنغافورة':
+                        info = 'يمكن زيارة سنغافورة على مدار العام.';
+                        break;
+                    case 'كندا':
+                        info = 'أفضل الفصول لزيارة كندا هي الصيف (يونيو-أغسطس).';
+                        break;
+                    case 'الولايات المتحدة الأمريكية':
+                        info = 'أفضل الفصول لزيارة الولايات المتحدة تختلف باختلاف المنطقة، ولكن بشكل عام الربيع والخريف هما الأفضل.';
+                        break;
+                    case 'البرازيل':
+                        info = 'أفضل الفصول لزيارة البرازيل هي الشتاء (يونيو-سبتمبر).';
+                        break;
+                    case 'الأرجنتين':
+                        info = 'أفضل الفصول لزيارة الأرجنتين هي الربيع (سبتمبر-نوفمبر) والخريف (مارس-مايو).';
+                        break;
+                    case 'بوليفيا':
+                        info = 'أفضل الفصول لزيارة بوليفيا هي من مايو إلى سبتمبر.';
+                        break;
+                    case 'الإكوادور':
+                        info = 'أفضل الفصول لزيارة الإكوادور هي من يونيو إلى سبتمبر.';
+                        break;
+                    case 'تشيلي':
+                        info = 'أفضل الفصول لزيارة تشيلي هي من نوفمبر إلى مارس.';
+                        break;
+                    case 'مصر':
+                        info = 'أفضل الفصول لزيارة مصر هي الشتاء (نوفمبر- أبريل).';
+                        break;
+                    case 'المغرب':
+                        info = 'أفضل الفصول لزيارة المغرب هي الربيع (مارس-مايو) والخريف (سبتمبر-نوفمبر).';
+                        break;
+                    case 'رواندا':
+                        info = 'أفضل الفصول لزيارة رواندا هي من يونيو إلى سبتمبر.';
+                        break;
+                    default:
+                        info = `المعلومات عن أفضل الفصول لزيارة ${destination} غير متوفرة حالياً. يرجى البحث للحصول على معلومات دقيقة.`;
+                }
+                break;
+            case 'popularActivities':
+                switch (destination) {
+                    case 'سويسرا':
+                        info = 'تشتهر سويسرا بجمال جبال الألب، والمدن التاريخية، والقرى الشارمة. يمكنك الاستمتاع بالتزلج في الشتاء، والمشي لمسافات طويلة في الصيف، وزيارة المدن مثل زيورخ وجنيف وبازل.';
+                        break;
+                    case 'المملكة المتحدة':
+                        info = 'تتميز إنجلترا بتاريخها الغني، وعاصمتها لندن التي تضم العديد من المعالم السياحية الشهيرة مثل برج الساعة (بيغ بن) وقصر باكنغهام. يمكنك أيضًا زيارة المدن الجامعية مثل أكسفورد وكامبريدج، والاستمتاع بالريف الإنجليزي.';
+                        break;
+                    case 'فرنسا':
+                        info = 'فرنسا بلد الرومانسية والأناقة، وتشتهر بباريس عاصمة الأزياء، وبرج إيفل، وقصر فرساي. يمكنك أيضًا زيارة الريفيرا الفرنسية، والاستمتاع بالطعام والنبيذ الفرنسيين.';
+                        break;
+                    case 'إيطاليا':
+                        info = 'إيطاليا بلد الفن والثقافة والطعام اللذيذ. يمكنك زيارة روما، فلورنسا، البندقية، ومشاهدة المعالم الأثرية مثل الكولوسيوم وبرج بيزا المائل.';
+                        break;
+                    case 'اليونان':
+                        info = 'اليونان بلد الآلهة والميثولوجيا، وتشتهر بشواطئها الجميلة وجزرها الساحرة، مثل سانتوريني وميكونوس. يمكنك أيضًا زيارة المواقع الأثرية القديمة مثل الأكروبوليس في أثينا.';
+                        break;
+                    case 'مصر':
+                        info = 'مصر بلد الأهرامات والفراعنة، وتشتهر بأهرامات الجيزة وأبو الهول، ووادي الملوك. يمكنك أيضًا الاستمتاع بالشواطئ على البحر الأحمر، والغوص في البحر الأحمر.';
+                        break;
+                    case 'المغرب':
+                        info = 'المغرب بلد الألوان والتوابل، وتشتهر بمدنها القديمة مثل مراكش وفاس، والصحراء الكبرى. يمكنك الاستمتاع بالحمّام المغربي، وتجربة الأطباق المغربية التقليدية.';
+                        break;
+                    case 'الولايات المتحدة الأمريكية':
+                        info = 'الولايات المتحدة بلد التنوع والثقافات، وتضم العديد من المدن الكبرى مثل نيويورك ولوس أنجلوس، والحدائق الوطنية مثل جراند كانيون واليوسمايت.';
+                        break;
+                    case 'البرازيل':
+                        info = 'البرازيل بلد الكرنفال والشواطئ الجميلة، وأمازون الغابات المطيرة. يمكنك زيارة ريو دي جانيرو، وساو باولو، والاستمتاع بالموسيقى والرقص البرازيليين.';
+                        break;
+                    case 'الأرجنتين':
+                        info = 'الأرجنتين بلد التانجو والشوايا، وتشتهر ببوينس آيرس عاصمة التانجو، وشلالات إيغواسو. يمكنك أيضًا زيارة باتاجونيا، والاستمتاع بالمناظر الطبيعية الخلابة.';
+                        break;
+                    case 'بوليفيا':
+                        info = 'بوليفيا بلد التضاريس المتنوعة، وتشتهر ببحيرة تييتيكاكا، وجبل تشايبوتاري، والملح الجاف في سالار دي أويوني.';
+                        break;
+                    case 'الإكوادور':
+                        info = 'الإكوادور بلد جزر غالاباغوس، وتشتهر بالتنوع البيولوجي، والآثار الإنكية. يمكنك زيارة كيتو، وغواياكيل، وجزر غالاباغوس.';
+                        break;
+                    case 'تشيلي':
+                        info = 'تشيلي بلد الأنديز، وتشتهر بشيلي باتاجونيا، وجزيرة إيستر، والصحراء الأتاكاما.';
+                        break;
+                    case 'تركيا':
+                        info = 'تركيا بلد الجسور بين الشرق والغرب، وتشتهر بإسطنبول، وقصر توبكابي، والمساجد الجميلة. يمكنك أيضًا الاستمتاع بالشواطئ على بحر إيجة وبحر المتوسط.';
+                        break;
+                    case 'تايلاند':
+                        info = 'تايلاند بلد المعابد والمساج، وتشتهر ببنجكوك، وشيانغ ماي، وشواطئ بوكيت. يمكنك الاستمتاع بالمأكولات التايلاندية اللذيذة، والتدليك التقليدي.';
+                        break;
+                    case 'كوريا الجنوبية':
+                        info = 'كوريا الجنوبية بلد التكنولوجيا والثقافة الحديثة، وتشتهر بسيول، ومدينة بوسان، والقصور الملكية. يمكنك الاستمتاع بالمطبخ الكوري، والحمامات الكورية التقليدية.';
+                        break;
+                    case 'سنغافورة':
+                        info = 'سنغافورة مدينة حديثة ومتعددة الثقافات، وتشتهر بحدائقها الجميلة، والمباني الشاهقة، والمطبخ المتنوع.';
+                        break;
+                    case 'اليابان':
+                        info = 'اليابان بلد الشاي والساموراي، وتشتهر بطوكيو، وكيوتو، وناغويا. يمكنك الاستمتاع بالحياة الليلية في طوكيو، وزيارة المعابد في كيوتو، والتنزه في الحدائق اليابانية.';
+                        break;
+                    default:
+                        info = `المعلومات عن الأنشطة السياحية الرائجة في ${destination} غير متوفرة حالياً. يرجى البحث للحصول على معلومات دقيقة.`;
+                }
+                break;
+            case 'majorCities':
+                switch (destination) {
+                    case 'سويسرا':
+                        info = 'أهم المدن الكبرى في سويسرا هي زيورخ، جنيف، بازل. تتميز هذه المدن بجودتها العالية في المعيشة، وبنوكها العالمية، وبحيراتها الجذابة.';
+                        break;
+                    case 'المملكة المتحدة':
+                        info = 'أهم المدن الكبرى في إنجلترا هي لندن، مانشستر، ليفربول. لندن هي العاصمة الثقافية والتجارية، بينما تشتهر مانشستر وليفربول بتاريخهما الصناعي والثقافي الغني.';
+                        break;
+                    case 'فرنسا':
+                        info = 'أهم المدن الكبرى في فرنسا هي باريس، مرسيليا، ليون. باريس هي مدينة الرومانسية والأناقة، ومرسيليا هي أكبر ميناء في فرنسا، وليون هي عاصمة الأضواء.';
+                        break;
+                    case 'إيطاليا':
+                        info = 'أهم المدن الكبرى في إيطاليا هي روما، فلورنسا، ميلانو، فينيسيا. روما هي العاصمة التاريخية، وفلورنسا هي مهد عصر النهضة، وميلانو هي عاصمة الموضة، وفينيسيا هي مدينة القنوات الرومانسية.';
+                        break;
+                    case 'اليونان':
+                        info = 'أهم المدن الكبرى في اليونان هي أثينا، سالونيك، باتراس. أثينا هي العاصمة التاريخية، وسالونيك هي ثاني أكبر مدينة في اليونان، وباتراس هي مركز تجاري مهم.';
+                        break;
+                    case 'مصر':
+                        info = 'أهم المدن الكبرى في مصر هي القاهرة، الإسكندرية، الأقصر. القاهرة هي العاصمة، والإسكندرية هي جوهرة البحر الأبيض المتوسط، والأقصر هي مدينة الفراعنة.';
+                        break;
+                    case 'المغرب':
+                        info = 'أهم المدن الكبرى في المغرب هي الرباط، مراكش، فاس، طنجة. الرباط هي العاصمة، ومراكش هي مدينة حمراء ساحرة، وفاس هي عاصمة الثقافة، وطنجة هي مدينة دولية.';
+                        break;
+                    case 'الولايات المتحدة الأمريكية':
+                        info = 'أهم المدن الكبرى في الولايات المتحدة الأمريكية هي نيويورك، لوس أنجلوس، شيكاغو، واشنطن العاصمة، هيوستن. نيويورك هي العاصمة المالية والثقافية، ولوس أنجلوس هي عاصمة السينما، وشيكاغو هي عاصمة البحيرات الكبرى، وواشنطن العاصمة هي العاصمة السياسية، وهيوستن هي مركز صناعة النفط.';
+                        break;
+                    case 'البرازيل':
+                        info = 'أهم المدن الكبرى في البرازيل هي ريو دي جانيرو، ساو باولو، برازيليا. ريو دي جانيرو هي مدينة الكرنفال، وساو باولو هي العاصمة الاقتصادية، وبرازيليا هي العاصمة الفدرالية.';
+                        break;
+                    case 'الأرجنتين':
+                        info = 'أهم المدن الكبرى في الأرجنتين هي بوينس آيرس، كوردوبا، روزاريو. بوينس آيرس هي العاصمة الثقافية، وكوردوبا هي عاصمة مقاطعة كوردوبا، وروزاريو هي مركز صناعي مهم.';
+                        break;
+                    case 'بوليفيا':
+                        info = 'أهم المدن الكبرى في بوليفيا هي لا باز، سانتا كروز. لا باز هي العاصمة الإدارية، وسانتا كروز هي العاصمة الاقتصادية.';
+                        break;
+                    case 'الإكوادور':
+                        info = 'أهم المدن الكبرى في الإكوادور هي كيتو، غواياكيل. كيتو هي العاصمة، وغواياكيل هي المركز التجاري.';
+                        break;
+                    case 'تشيلي':
+                        info = 'أهم المدن الكبرى في تشيلي هي سانتياغو، فالبارايسو. سانتياغو هي العاصمة، وفالبارايسو هي ميناء تاريخي.';
+                        break;
+                    case 'تركيا':
+                        info = 'أهم المدن الكبرى في تركيا هي إسطنبول، أنقرة، إزمير. إسطنبول هي أكبر مدينة في تركيا، وأنقرة هي العاصمة، وإزمير هي ثالث أكبر مدينة.';
+                        break;
+                    case 'تايلاند':
+                        info = 'أهم المدن الكبرى في تايلاند هي بانكوك، شيانغ ماي. بانكوك هي العاصمة، وشيانغ ماي هي مدينة ثقافية في شمال تايلاند.';
+                        break;
+                    case 'كوريا الجنوبية':
+                        info = 'أهم المدن الكبرى في كوريا الجنوبية هي سيول، بوسان. سيول هي العاصمة، وبوسان هي ثاني أكبر مدينة.';
+                        break;
+                    case 'سنغافورة':
+                        info = 'سنغافورة هي دولة مدينة واحدة.';
+                        break;
+                    case 'اليابان':
+                        info = 'أهم المدن الكبرى في اليابان هي طوكيو، أوساكا، كيوتو. طوكيو هي العاصمة، وأوساكا هي المركز التجاري، وكيوتو هي المدينة التاريخية.';
+                        break;
+                    default:
+                        info = `المعلومات عن أهم المدن الكبرى في ${destination} غير متوفرة حالياً. يرجى البحث للحصول على معلومات دقيقة.`;
+                }
+                break;
+            default:
+                info = 'الرجاء اختيار فئة للحصول على المعلومات.';
+        }
+
+        destinationInfo.textContent = info;
+        destinationInfo.style.color = 'white';
+    });
+</script>
+</body></html>
